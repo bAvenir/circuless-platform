@@ -1,2 +1,2 @@
-# circuless-platform
-CIRCULess platform infrastructure
+# circuless-cloud
+Cloud infrastructure for CIRCULess project

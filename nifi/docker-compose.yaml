@@ -1,0 +1,89 @@
+services:
+  nifi:
+    image: apache/nifi:latest 
+    container_name: nifi
+
+    environment:
+      - NIFI_WEB_HTTP_PORT=8080 
+      - NIFI_WEB_PROXY_HOST=nifi.circ.bavenir.eu
+      
+      - SINGLE_USER_CREDENTIALS_USERNAME=${NIFI_USERNAME}
+      
+      - SINGLE_USER_CREDENTIALS_PASSWORD=${NIFI_PASSWORD}
+    volumes:
+      - ./nifi/nifi-current/database_repository:/opt/nifi/nifi-current/database_repository
+      - ./nifi/nifi-current/flowfile_repository:/opt/nifi/nifi-current/flowfile_repository
+      - ./nifi/nifi-current/content_repository:/opt/nifi/nifi-current/content_repository
+      - ./nifi/nifi-current/provenance_repository:/opt/nifi/nifi-current/provenance_repository
+      - ./nifi/nifi-current/python_extensions:/opt/nifi/nifi-current/python_extensions
+      - ./nifi/nifi-current/state:/opt/nifi/nifi-current/state
+      - ./nifi/nifi-current/logs:/opt/nifi/nifi-current/logs
+      # uncomment the next line after copying the /conf directory from the container to your local directory to persist NiFi flows
+      # docker cp <container-ID>:/opt/nifi/nifi-current/conf ./nifi/
+      - ./nifi/nifi-current/conf:/opt/nifi/nifi-current/conf
+      - ./nifi/nifi-current/lib:/opt/nifi/lib
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.nifi.rule=Host(`${NIFI_DOMAIN}`)
+      - traefik.http.routers.nifi.entrypoints=websecure
+      - traefik.http.routers.nifi.tls=true
+      - traefik.http.routers.nifi.tls.certresolver=myresolver
+      - traefik.http.routers.nifi.service=nifi
+      # Service -> HTTPS backend on 8443
+      - traefik.http.services.nifi.loadbalancer.server.scheme=https
+      - traefik.http.services.nifi.loadbalancer.server.port=8443
+
+
+    restart: unless-stopped
+
+    networks:
+      - traefik
+
+  registry:
+    hostname: myregistry
+    container_name: registry_container_persistent
+    image: 'apache/nifi-registry:2.3.0'  
+    restart: on-failure
+   
+    environment:
+      - LOG_LEVEL=INFO
+      - NIFI_REGISTRY_DB_DIR=/opt/nifi-registry/nifi-registry-current/database
+      - NIFI_REGISTRY_FLOW_PROVIDER=file
+      - NIFI_REGISTRY_FLOW_STORAGE_DIR=/opt/nifi-registry/nifi-registry-current/flow_storage
+    volumes:
+      - ./nifi_registry/database:/opt/nifi-registry/nifi-registry-current/database
+      - ./nifi_registry/flow_storage:/opt/nifi-registry/nifi-registry-current/flow_storage
+
+    networks:
+      - traefik
+  minio:
+    container_name: minio
+    image: "minio/minio:RELEASE.2025-03-12T18-04-18Z"
+    volumes:
+      - ./minio:/data
+    
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ACCESS_KEY}
+      - MINIO_ROOT_PASSWORD=${MINIO_SECRET_KEY}
+    command: server /data --console-address ":9001"
+
+    labels:
+        - traefik.enable=true
+        - traefik.port=80
+        - traefik.http.services.minio.loadbalancer.server.port=9001
+        - traefik.http.routers.minio.rule=Host(`${MINIO_DOMAIN}`)
+        - traefik.http.routers.minio.entrypoints=websecure
+        - traefik.http.routers.minio.tls=true
+        - traefik.http.routers.minio.tls.certresolver=myresolver
+       
+
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:9001/minio/health/live" ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - traefik
+networks:
+  traefik:
+    external: true

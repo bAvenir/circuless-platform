@@ -1,0 +1,184 @@
+# ==============================================================================
+# Circuless Cloud Infrastructure - .gitignore
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Sensitive Files - NEVER COMMIT
+# ------------------------------------------------------------------------------
+
+# Environment files with secrets
+**/.env
+.env
+.env.local
+.env.production
+
+# SSH keys and certificates
+**/*.key
+**/*.pem
+**/*.crt
+**/*.p12
+**/*.pfx
+**/*.jks
+**/*.keystore
+**/privkey*.pem
+**/fullchain*.pem
+**/cert*.pem
+
+# Secrets and credentials
+**/secrets/
+**/credentials/
+**/*password*
+**/*secret*
+**/*token*
+**/.htpasswd
+
+# ------------------------------------------------------------------------------
+# Service-Specific Configs (use .example versions instead)
+# ------------------------------------------------------------------------------
+
+# APISIX - ignore actual config, keep .example
+apisix/apisix-config/config.yaml
+
+# Traefik - ignore actual config if sensitive
+# traefik/traefik.yml  # Uncomment if it contains secrets
+
+# NiFi - ignore actual compose if it has secrets
+# nifi/docker-compose.yaml  # Uncomment if it contains secrets
+
+# ------------------------------------------------------------------------------
+# Data & Runtime Files
+# ------------------------------------------------------------------------------
+
+# Data directories
+**/data/
+**/*_data/
+**/etcd_data/
+**/minio/
+**/nifi/conf/
+**/nifi/state/
+**/nifi/logs/
+**/nifi_registry/
+
+# Logs
+**/logs/
+**/*.log
+**/*.log.*
+
+# Temporary files
+**/*.tmp
+**/*.temp
+**/*.swp
+**/*.swo
+**/*~
+**/.DS_Store
+
+# PID files
+**/*.pid
+**/*.sock
+
+# Backups
+**/*.backup
+**/*.bak
+**/*.old
+
+# ------------------------------------------------------------------------------
+# SSL/TLS Certificates
+# ------------------------------------------------------------------------------
+
+# Let's Encrypt
+traefik/letsencrypt/
+**/acme.json
+
+# Custom certificates
+**/certs/
+**/ssl/
+
+# ------------------------------------------------------------------------------
+# Container/System Specific
+# ------------------------------------------------------------------------------
+
+# Containerd
+containerd/
+
+# Docker
+**/.dockerignore
+
+# ------------------------------------------------------------------------------
+# OS & Editor Files
+# ------------------------------------------------------------------------------
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+.project
+.classpath
+.settings/
+
+# ------------------------------------------------------------------------------
+# Git
+# ------------------------------------------------------------------------------
+
+# Git backup files
+*.orig
+
+# ------------------------------------------------------------------------------
+# ALLOW .example and template files
+# ------------------------------------------------------------------------------
+
+# Make sure example files ARE committed
+!**/*.example
+!**/*.template
+!**/.env.example
+!**/config.yaml.example
+!**/traefik.yml.example
+!**/docker-compose.yaml.example
+
+
+# NiFi data directories
+nifi/nifi-current/database_repository/
+nifi/nifi-current/flowfile_repository/
+nifi/nifi-current/content_repository/
+nifi/nifi-current/provenance_repository/
+nifi/nifi-current/state/
+nifi/nifi-current/logs/
+nifi/nifi-current/conf/
+nifi/nifi-current/lib/
+
+# NiFi Registry data
+nifi_registry/database/
+nifi_registry/flow_storage/
+
+# MinIO data
+minio/
+
+# Keep directory structure but ignore contents
+!nifi/nifi-current/.gitkeep
+!nifi_registry/.gitkeep
+!minio/.gitkeep
+
+# Traefik
+traefik/letsencrypt/
+traefik/acme.json
+traefik/traefik.yml
+
+# Allow example files
+!traefik/traefik.yml.example
