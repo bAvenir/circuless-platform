@@ -1,0 +1,718 @@
+{
+  "externalControllerServices" : {
+    "2b6902f6-ea7e-3d1b-97aa-e677a9fb8b9b" : {
+      "identifier" : "2b6902f6-ea7e-3d1b-97aa-e677a9fb8b9b",
+      "name" : "Minio"
+    }
+  },
+  "flow" : {
+    "createdTimestamp" : 1764149126591,
+    "description" : "Download flow",
+    "identifier" : "Download-flow",
+    "lastModifiedTimestamp" : 1764149126591,
+    "name" : "Download flow",
+    "versionCount" : 0
+  },
+  "flowContents" : {
+    "comments" : "",
+    "componentType" : "PROCESS_GROUP",
+    "connections" : [ {
+      "backPressureDataSizeThreshold" : "1 GB",
+      "backPressureObjectThreshold" : 10000,
+      "bends" : [ ],
+      "componentType" : "CONNECTION",
+      "destination" : {
+        "comments" : "",
+        "groupId" : "flow-contents-group",
+        "id" : "031b8937-71fb-331f-b2ac-a27e762a239d",
+        "name" : "HandleHttpResponse",
+        "type" : "PROCESSOR"
+      },
+      "flowFileExpiration" : "0 sec",
+      "groupIdentifier" : "flow-contents-group",
+      "identifier" : "2558d63d-4f05-3106-8a79-42b038c5afa5",
+      "labelIndex" : 0,
+      "loadBalanceCompression" : "DO_NOT_COMPRESS",
+      "loadBalanceStrategy" : "DO_NOT_LOAD_BALANCE",
+      "name" : "",
+      "partitioningAttribute" : "",
+      "prioritizers" : [ ],
+      "selectedRelationships" : [ "failure", "success" ],
+      "source" : {
+        "comments" : "",
+        "groupId" : "flow-contents-group",
+        "id" : "1ab4477a-eb3e-3531-9891-05797c01dc42",
+        "name" : "FetchS3Object",
+        "type" : "PROCESSOR"
+      },
+      "zIndex" : 6
+    }, {
+      "backPressureDataSizeThreshold" : "1 GB",
+      "backPressureObjectThreshold" : 10000,
+      "bends" : [ ],
+      "componentType" : "CONNECTION",
+      "destination" : {
+        "comments" : "",
+        "groupId" : "flow-contents-group",
+        "id" : "1ab4477a-eb3e-3531-9891-05797c01dc42",
+        "name" : "FetchS3Object",
+        "type" : "PROCESSOR"
+      },
+      "flowFileExpiration" : "0 sec",
+      "groupIdentifier" : "flow-contents-group",
+      "identifier" : "59403a9d-3859-3b88-95d8-062310b2c383",
+      "labelIndex" : 0,
+      "loadBalanceCompression" : "DO_NOT_COMPRESS",
+      "loadBalanceStrategy" : "DO_NOT_LOAD_BALANCE",
+      "name" : "",
+      "partitioningAttribute" : "",
+      "prioritizers" : [ ],
+      "selectedRelationships" : [ "success" ],
+      "source" : {
+        "comments" : "",
+        "groupId" : "flow-contents-group",
+        "id" : "6671051d-6cfc-3ac0-8ba4-e5b1984be7bf",
+        "name" : "LogAttribute",
+        "type" : "PROCESSOR"
+      },
+      "zIndex" : 5
+    }, {
+      "backPressureDataSizeThreshold" : "1 GB",
+      "backPressureObjectThreshold" : 10000,
+      "bends" : [ ],
+      "componentType" : "CONNECTION",
+      "destination" : {
+        "comments" : "",
+        "groupId" : "flow-contents-group",
+        "id" : "6671051d-6cfc-3ac0-8ba4-e5b1984be7bf",
+        "name" : "LogAttribute",
+        "type" : "PROCESSOR"
+      },
+      "flowFileExpiration" : "0 sec",
+      "groupIdentifier" : "flow-contents-group",
+      "identifier" : "b46b44d0-abcf-32cc-9b39-95e05c689f99",
+      "labelIndex" : 0,
+      "loadBalanceCompression" : "DO_NOT_COMPRESS",
+      "loadBalanceStrategy" : "DO_NOT_LOAD_BALANCE",
+      "name" : "",
+      "partitioningAttribute" : "",
+      "prioritizers" : [ ],
+      "selectedRelationships" : [ "success" ],
+      "source" : {
+        "comments" : "",
+        "groupId" : "flow-contents-group",
+        "id" : "1933b5e8-77a1-3dbb-a8bc-f35da4d8ec4b",
+        "name" : "HandleHttpRequest",
+        "type" : "PROCESSOR"
+      },
+      "zIndex" : 4
+    } ],
+    "controllerServices" : [ {
+      "bulletinLevel" : "WARN",
+      "bundle" : {
+        "artifact" : "nifi-http-context-map-nar",
+        "group" : "org.apache.nifi",
+        "version" : "2.5.0"
+      },
+      "comments" : "",
+      "componentType" : "CONTROLLER_SERVICE",
+      "controllerServiceApis" : [ {
+        "bundle" : {
+          "artifact" : "nifi-standard-services-api-nar",
+          "group" : "org.apache.nifi",
+          "version" : "2.5.0"
+        },
+        "type" : "org.apache.nifi.http.HttpContextMap"
+      } ],
+      "groupIdentifier" : "flow-contents-group",
+      "identifier" : "bb0bd16b-ab73-3bdb-bc30-8f6e42d6515f",
+      "name" : "StandardHttpContextMap",
+      "properties" : {
+        "Request Expiration" : "1 min",
+        "Maximum Outstanding Requests" : "5000"
+      },
+      "propertyDescriptors" : {
+        "Request Expiration" : {
+          "displayName" : "Request Expiration",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Request Expiration",
+          "sensitive" : false
+        },
+        "Maximum Outstanding Requests" : {
+          "displayName" : "Maximum Outstanding Requests",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Maximum Outstanding Requests",
+          "sensitive" : false
+        }
+      },
+      "scheduledState" : "DISABLED",
+      "type" : "org.apache.nifi.http.StandardHttpContextMap"
+    } ],
+    "defaultBackPressureDataSizeThreshold" : "1 GB",
+    "defaultBackPressureObjectThreshold" : 10000,
+    "defaultFlowFileExpiration" : "0 sec",
+    "executionEngine" : "INHERITED",
+    "externalControllerServiceReferences" : {
+      "2b6902f6-ea7e-3d1b-97aa-e677a9fb8b9b" : {
+        "identifier" : "2b6902f6-ea7e-3d1b-97aa-e677a9fb8b9b",
+        "name" : "Minio"
+      }
+    },
+    "flowFileConcurrency" : "UNBOUNDED",
+    "flowFileOutboundPolicy" : "STREAM_WHEN_AVAILABLE",
+    "funnels" : [ ],
+    "identifier" : "flow-contents-group",
+    "inputPorts" : [ ],
+    "labels" : [ ],
+    "maxConcurrentTasks" : 1,
+    "name" : "download_flow",
+    "outputPorts" : [ ],
+    "position" : {
+      "x" : 0.0,
+      "y" : 0.0
+    },
+    "processGroups" : [ ],
+    "processors" : [ {
+      "autoTerminatedRelationships" : [ "failure", "success" ],
+      "backoffMechanism" : "PENALIZE_FLOWFILE",
+      "bulletinLevel" : "WARN",
+      "bundle" : {
+        "artifact" : "nifi-standard-nar",
+        "group" : "org.apache.nifi",
+        "version" : "2.5.0"
+      },
+      "comments" : "",
+      "componentType" : "PROCESSOR",
+      "concurrentlySchedulableTaskCount" : 1,
+      "executionNode" : "ALL",
+      "groupIdentifier" : "flow-contents-group",
+      "identifier" : "031b8937-71fb-331f-b2ac-a27e762a239d",
+      "maxBackoffPeriod" : "10 mins",
+      "name" : "HandleHttpResponse",
+      "penaltyDuration" : "30 sec",
+      "position" : {
+        "x" : 32.0,
+        "y" : 840.0
+      },
+      "properties" : {
+        "HTTP Context Map" : "bb0bd16b-ab73-3bdb-bc30-8f6e42d6515f",
+        "HTTP Status Code" : "200"
+      },
+      "propertyDescriptors" : {
+        "HTTP Context Map" : {
+          "displayName" : "HTTP Context Map",
+          "dynamic" : false,
+          "identifiesControllerService" : true,
+          "name" : "HTTP Context Map",
+          "sensitive" : false
+        },
+        "Attributes to add to the HTTP Response (Regex)" : {
+          "displayName" : "Attributes to add to the HTTP Response (Regex)",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Attributes to add to the HTTP Response (Regex)",
+          "sensitive" : false
+        },
+        "HTTP Status Code" : {
+          "displayName" : "HTTP Status Code",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "HTTP Status Code",
+          "sensitive" : false
+        }
+      },
+      "retriedRelationships" : [ ],
+      "retryCount" : 10,
+      "runDurationMillis" : 0,
+      "scheduledState" : "ENABLED",
+      "schedulingPeriod" : "0 sec",
+      "schedulingStrategy" : "TIMER_DRIVEN",
+      "style" : { },
+      "type" : "org.apache.nifi.processors.standard.HandleHttpResponse",
+      "yieldDuration" : "1 sec"
+    }, {
+      "autoTerminatedRelationships" : [ ],
+      "backoffMechanism" : "PENALIZE_FLOWFILE",
+      "bulletinLevel" : "WARN",
+      "bundle" : {
+        "artifact" : "nifi-standard-nar",
+        "group" : "org.apache.nifi",
+        "version" : "2.5.0"
+      },
+      "comments" : "",
+      "componentType" : "PROCESSOR",
+      "concurrentlySchedulableTaskCount" : 1,
+      "executionNode" : "ALL",
+      "groupIdentifier" : "flow-contents-group",
+      "identifier" : "1933b5e8-77a1-3dbb-a8bc-f35da4d8ec4b",
+      "maxBackoffPeriod" : "10 mins",
+      "name" : "HandleHttpRequest",
+      "penaltyDuration" : "30 sec",
+      "position" : {
+        "x" : 24.0,
+        "y" : -64.0
+      },
+      "properties" : {
+        "multipart-request-max-size" : "1 MB",
+        "Allow POST" : "false",
+        "Default URL Character Set" : "UTF-8",
+        "Allow DELETE" : "false",
+        "Request Header Maximum Size" : "8 KB",
+        "Maximum Threads" : "200",
+        "HTTP Protocols" : "HTTP_1_1",
+        "container-queue-size" : "50",
+        "HTTP Context Map" : "bb0bd16b-ab73-3bdb-bc30-8f6e42d6515f",
+        "multipart-read-buffer-size" : "512 KB",
+        "Allow OPTIONS" : "false",
+        "Allowed Paths" : "^/dataplane(?:/.*)?$",
+        "Allow GET" : "true",
+        "Allow HEAD" : "false",
+        "Listening Port" : "8889",
+        "Client Authentication" : "No Authentication",
+        "Allow PUT" : "false"
+      },
+      "propertyDescriptors" : {
+        "multipart-request-max-size" : {
+          "displayName" : "Multipart Request Max Size",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "multipart-request-max-size",
+          "sensitive" : false
+        },
+        "parameters-to-attributes" : {
+          "displayName" : "Parameters to Attributes List",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "parameters-to-attributes",
+          "sensitive" : false
+        },
+        "Allow POST" : {
+          "displayName" : "Allow POST",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Allow POST",
+          "sensitive" : false
+        },
+        "Hostname" : {
+          "displayName" : "Hostname",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Hostname",
+          "sensitive" : false
+        },
+        "Default URL Character Set" : {
+          "displayName" : "Default URL Character Set",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Default URL Character Set",
+          "sensitive" : false
+        },
+        "Allow DELETE" : {
+          "displayName" : "Allow DELETE",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Allow DELETE",
+          "sensitive" : false
+        },
+        "Request Header Maximum Size" : {
+          "displayName" : "Request Header Maximum Size",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Request Header Maximum Size",
+          "sensitive" : false
+        },
+        "Maximum Threads" : {
+          "displayName" : "Maximum Threads",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Maximum Threads",
+          "sensitive" : false
+        },
+        "HTTP Protocols" : {
+          "displayName" : "HTTP Protocols",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "HTTP Protocols",
+          "sensitive" : false
+        },
+        "Additional HTTP Methods" : {
+          "displayName" : "Additional HTTP Methods",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Additional HTTP Methods",
+          "sensitive" : false
+        },
+        "container-queue-size" : {
+          "displayName" : "Container Queue Size",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "container-queue-size",
+          "sensitive" : false
+        },
+        "HTTP Context Map" : {
+          "displayName" : "HTTP Context Map",
+          "dynamic" : false,
+          "identifiesControllerService" : true,
+          "name" : "HTTP Context Map",
+          "sensitive" : false
+        },
+        "multipart-read-buffer-size" : {
+          "displayName" : "Multipart Read Buffer Size",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "multipart-read-buffer-size",
+          "sensitive" : false
+        },
+        "SSL Context Service" : {
+          "displayName" : "SSL Context Service",
+          "dynamic" : false,
+          "identifiesControllerService" : true,
+          "name" : "SSL Context Service",
+          "sensitive" : false
+        },
+        "Allow OPTIONS" : {
+          "displayName" : "Allow OPTIONS",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Allow OPTIONS",
+          "sensitive" : false
+        },
+        "Allowed Paths" : {
+          "displayName" : "Allowed Paths",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Allowed Paths",
+          "sensitive" : false
+        },
+        "Allow GET" : {
+          "displayName" : "Allow GET",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Allow GET",
+          "sensitive" : false
+        },
+        "Allow HEAD" : {
+          "displayName" : "Allow HEAD",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Allow HEAD",
+          "sensitive" : false
+        },
+        "Listening Port" : {
+          "displayName" : "Listening Port",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Listening Port",
+          "sensitive" : false
+        },
+        "Client Authentication" : {
+          "displayName" : "Client Authentication",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Client Authentication",
+          "sensitive" : false
+        },
+        "Allow PUT" : {
+          "displayName" : "Allow PUT",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Allow PUT",
+          "sensitive" : false
+        }
+      },
+      "retriedRelationships" : [ ],
+      "retryCount" : 10,
+      "runDurationMillis" : 0,
+      "scheduledState" : "ENABLED",
+      "schedulingPeriod" : "0 sec",
+      "schedulingStrategy" : "TIMER_DRIVEN",
+      "style" : { },
+      "type" : "org.apache.nifi.processors.standard.HandleHttpRequest",
+      "yieldDuration" : "1 sec"
+    }, {
+      "autoTerminatedRelationships" : [ ],
+      "backoffMechanism" : "PENALIZE_FLOWFILE",
+      "bulletinLevel" : "WARN",
+      "bundle" : {
+        "artifact" : "nifi-aws-nar",
+        "group" : "org.apache.nifi",
+        "version" : "2.5.0"
+      },
+      "comments" : "",
+      "componentType" : "PROCESSOR",
+      "concurrentlySchedulableTaskCount" : 1,
+      "executionNode" : "ALL",
+      "groupIdentifier" : "flow-contents-group",
+      "identifier" : "1ab4477a-eb3e-3531-9891-05797c01dc42",
+      "maxBackoffPeriod" : "10 mins",
+      "name" : "FetchS3Object",
+      "penaltyDuration" : "30 sec",
+      "position" : {
+        "x" : 40.0,
+        "y" : 528.0
+      },
+      "properties" : {
+        "Endpoint Override URL" : "http://minio:9000",
+        "requester-pays" : "false",
+        "Object Key" : "${http.request.uri:substringAfterLast('/')}",
+        "AWS Credentials Provider service" : "2b6902f6-ea7e-3d1b-97aa-e677a9fb8b9b",
+        "Signer Override" : "Default Signature",
+        "Bucket" : "test",
+        "Communications Timeout" : "30 secs",
+        "Region" : "us-west-2"
+      },
+      "propertyDescriptors" : {
+        "range-length" : {
+          "displayName" : "Range Length",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "range-length",
+          "sensitive" : false
+        },
+        "range-start" : {
+          "displayName" : "Range Start",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "range-start",
+          "sensitive" : false
+        },
+        "proxy-configuration-service" : {
+          "displayName" : "Proxy Configuration Service",
+          "dynamic" : false,
+          "identifiesControllerService" : true,
+          "name" : "proxy-configuration-service",
+          "sensitive" : false
+        },
+        "Endpoint Override URL" : {
+          "displayName" : "Endpoint Override URL",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Endpoint Override URL",
+          "sensitive" : false
+        },
+        "custom-signer-class-name" : {
+          "displayName" : "Custom Signer Class Name",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "custom-signer-class-name",
+          "sensitive" : false
+        },
+        "requester-pays" : {
+          "displayName" : "Requester Pays",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "requester-pays",
+          "sensitive" : false
+        },
+        "Object Key" : {
+          "displayName" : "Object Key",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Object Key",
+          "sensitive" : false
+        },
+        "AWS Credentials Provider service" : {
+          "displayName" : "AWS Credentials Provider Service",
+          "dynamic" : false,
+          "identifiesControllerService" : true,
+          "name" : "AWS Credentials Provider service",
+          "sensitive" : false
+        },
+        "custom-signer-module-location" : {
+          "displayName" : "Custom Signer Module Location",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "custom-signer-module-location",
+          "resourceDefinition" : {
+            "cardinality" : "MULTIPLE",
+            "resourceTypes" : [ "DIRECTORY", "FILE" ]
+          },
+          "sensitive" : false
+        },
+        "SSL Context Service" : {
+          "displayName" : "SSL Context Service",
+          "dynamic" : false,
+          "identifiesControllerService" : true,
+          "name" : "SSL Context Service",
+          "sensitive" : false
+        },
+        "Signer Override" : {
+          "displayName" : "Signer Override",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Signer Override",
+          "sensitive" : false
+        },
+        "Bucket" : {
+          "displayName" : "Bucket",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Bucket",
+          "sensitive" : false
+        },
+        "Version" : {
+          "displayName" : "Version",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Version",
+          "sensitive" : false
+        },
+        "Communications Timeout" : {
+          "displayName" : "Communications Timeout",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Communications Timeout",
+          "sensitive" : false
+        },
+        "Region" : {
+          "displayName" : "Region",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Region",
+          "sensitive" : false
+        },
+        "encryption-service" : {
+          "displayName" : "Encryption Service",
+          "dynamic" : false,
+          "identifiesControllerService" : true,
+          "name" : "encryption-service",
+          "sensitive" : false
+        }
+      },
+      "retriedRelationships" : [ ],
+      "retryCount" : 10,
+      "runDurationMillis" : 0,
+      "scheduledState" : "ENABLED",
+      "schedulingPeriod" : "0 sec",
+      "schedulingStrategy" : "TIMER_DRIVEN",
+      "style" : { },
+      "type" : "org.apache.nifi.processors.aws.s3.FetchS3Object",
+      "yieldDuration" : "1 sec"
+    }, {
+      "autoTerminatedRelationships" : [ ],
+      "backoffMechanism" : "PENALIZE_FLOWFILE",
+      "bulletinLevel" : "WARN",
+      "bundle" : {
+        "artifact" : "nifi-standard-nar",
+        "group" : "org.apache.nifi",
+        "version" : "2.5.0"
+      },
+      "comments" : "",
+      "componentType" : "PROCESSOR",
+      "concurrentlySchedulableTaskCount" : 1,
+      "executionNode" : "ALL",
+      "groupIdentifier" : "flow-contents-group",
+      "identifier" : "6671051d-6cfc-3ac0-8ba4-e5b1984be7bf",
+      "maxBackoffPeriod" : "10 mins",
+      "name" : "LogAttribute",
+      "penaltyDuration" : "30 sec",
+      "position" : {
+        "x" : 32.0,
+        "y" : 240.0
+      },
+      "properties" : {
+        "character-set" : "UTF-8",
+        "Log FlowFile Properties" : "true",
+        "Log Level" : "info",
+        "attributes-to-log-regex" : ".*",
+        "Output Format" : "Line per Attribute",
+        "Log Payload" : "false"
+      },
+      "propertyDescriptors" : {
+        "Log prefix" : {
+          "displayName" : "Log prefix",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Log prefix",
+          "sensitive" : false
+        },
+        "character-set" : {
+          "displayName" : "Character Set",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "character-set",
+          "sensitive" : false
+        },
+        "Log FlowFile Properties" : {
+          "displayName" : "Log FlowFile Properties",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Log FlowFile Properties",
+          "sensitive" : false
+        },
+        "Log Level" : {
+          "displayName" : "Log Level",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Log Level",
+          "sensitive" : false
+        },
+        "attributes-to-ignore-regex" : {
+          "displayName" : "Attributes to Ignore by Regular Expression",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "attributes-to-ignore-regex",
+          "sensitive" : false
+        },
+        "Attributes to Ignore" : {
+          "displayName" : "Attributes to Ignore",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Attributes to Ignore",
+          "sensitive" : false
+        },
+        "Attributes to Log" : {
+          "displayName" : "Attributes to Log",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Attributes to Log",
+          "sensitive" : false
+        },
+        "attributes-to-log-regex" : {
+          "displayName" : "Attributes to Log by Regular Expression",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "attributes-to-log-regex",
+          "sensitive" : false
+        },
+        "Output Format" : {
+          "displayName" : "Output Format",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Output Format",
+          "sensitive" : false
+        },
+        "Log Payload" : {
+          "displayName" : "Log Payload",
+          "dynamic" : false,
+          "identifiesControllerService" : false,
+          "name" : "Log Payload",
+          "sensitive" : false
+        }
+      },
+      "retriedRelationships" : [ ],
+      "retryCount" : 10,
+      "runDurationMillis" : 25,
+      "scheduledState" : "ENABLED",
+      "schedulingPeriod" : "0 sec",
+      "schedulingStrategy" : "TIMER_DRIVEN",
+      "style" : { },
+      "type" : "org.apache.nifi.processors.standard.LogAttribute",
+      "yieldDuration" : "1 sec"
+    } ],
+    "remoteProcessGroups" : [ ],
+    "scheduledState" : "ENABLED",
+    "statelessFlowTimeout" : "1 min"
+  },
+  "flowEncodingVersion" : "1.0",
+  "latest" : false,
+  "parameterContexts" : { },
+  "parameterProviders" : { },
+  "snapshotMetadata" : {
+    "author" : "admin",
+    "flowIdentifier" : "Download-flow",
+    "timestamp" : 1764149127644
+  }
+}
